@@ -10,7 +10,7 @@ import java.util.function.Function;
 public class JwtUtil {
     private final String SECRET_KEY = "mysecretkey123456789101112131415161718192021222324"; // key bảo mật
     //    private final long ACCESS_TOKEN_EXPIRATION = 1000 * 60 * 60 ;
-    private final long ACCESS_TOKEN_EXPIRATION = 1000 * 60 * 1;
+    private final long ACCESS_TOKEN_EXPIRATION = 1000 * 60 * 60;
     // refresh token: 5 phút
     private final long REFRESH_TOKEN_EXPIRATION = 1000L * 60 * 60 * 24;
 

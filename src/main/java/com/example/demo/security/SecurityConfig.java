@@ -27,13 +27,20 @@ public class SecurityConfig {
         this.customOAuth2UserService = customOAuth2UserService;
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
     }
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/api/user/login", "/error", "/oauth2/**","/api/user/refresh").permitAll()
+                        .requestMatchers(
+                                "/",
+                                "/api/user/login",
+                                "/error",
+                                "/oauth2/**",
+                                "/api/user/refresh",
+                                "/api/class/create").permitAll()
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(ex -> ex

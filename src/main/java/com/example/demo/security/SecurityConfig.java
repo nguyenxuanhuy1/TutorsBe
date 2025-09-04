@@ -1,6 +1,7 @@
 package com.example.demo.security;
 
 import com.example.demo.service.Impl.CustomOAuth2UserService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,9 @@ import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Configuration
 @EnableWebSecurity
@@ -39,13 +43,21 @@ public class SecurityConfig {
                         .userInfoEndpoint(userInfo -> userInfo.userService(customOAuth2UserService))
                         .successHandler((request, response, authentication) -> {
                             var oAuth2User = (org.springframework.security.oauth2.core.user.OAuth2User) authentication.getPrincipal();
-                            String token = (String) oAuth2User.getAttributes().get("jwt");
+                            String accessToken = (String) oAuth2User.getAttributes().get("accessToken");
+                            String refreshToken = (String) oAuth2User.getAttributes().get("refreshToken");
 
-                            // Trả token cho FE
+                            // Tạo response body
+                            Map<String, String> tokenResponse = new HashMap<>();
+                            tokenResponse.put("accessToken", accessToken);
+                            tokenResponse.put("refreshToken", refreshToken);
+
+                            // Convert sang JSON bằng Jackson
+                            ObjectMapper mapper = new ObjectMapper();
+                            String jsonResponse = mapper.writeValueAsString(tokenResponse);
+
                             response.setStatus(HttpServletResponse.SC_OK);
                             response.setContentType("application/json");
-                            response.setHeader("Authorization", "Bearer " + token);
-                            response.getWriter().write("{\"token\":\"" + token + "\"}");
+                            response.getWriter().write(jsonResponse);
                         })
                 );
 

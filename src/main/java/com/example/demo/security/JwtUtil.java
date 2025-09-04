@@ -8,7 +8,7 @@ import java.util.function.Function;
 public class JwtUtil {
     private final String SECRET_KEY = "mysecretkey123456789101112131415161718192021222324"; // key bảo mật
     private final long EXPIRATION = 1000 * 60 * 60 ; // 1 ngày
-
+    private final long REFRESH_TOKEN_EXPIRATION = 1000L * 60 * 60 * 24 * 7;
     public String generateToken(Long userId, String email, String role) {
         return Jwts.builder()
                 .claim("id", userId)
@@ -17,6 +17,14 @@ public class JwtUtil {
                 .setSubject(email)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION))
+                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+                .compact();
+    }
+    public String generateRefreshToken(String email) {
+        return Jwts.builder()
+                .setSubject(email)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + REFRESH_TOKEN_EXPIRATION))
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
                 .compact();
     }

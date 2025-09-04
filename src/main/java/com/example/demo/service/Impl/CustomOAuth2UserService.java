@@ -42,11 +42,13 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService{
                         .build()));
 
         // Tạo JWT chuẩn
-        String token = jwtUtil.generateToken(user.getId(), user.getEmail(), user.getRole());
+        String accessToken = jwtUtil.generateToken(user.getId(), user.getEmail(), user.getRole());
+        String refreshToken = jwtUtil.generateRefreshToken(user.getEmail());
 
         // Thêm vào attributes
         Map<String, Object> attributes = new HashMap<>(oAuth2User.getAttributes());
-        attributes.put("jwt", token);
+        attributes.put("accessToken", accessToken);
+        attributes.put("refreshToken", refreshToken);
 
         return new DefaultOAuth2User(
                 oAuth2User.getAuthorities(),

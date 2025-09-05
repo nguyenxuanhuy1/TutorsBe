@@ -94,10 +94,11 @@ public class ClassRequestServiceImpl implements ClassRequestService {
 
 
     @Override
-    public void approveRequests(List<Long> ids) {
+    public int approveRequests(List<Long> ids) {
         List<ClassRequest> requests = repository.findAllById(ids);
         requests.forEach(r -> r.setStatus("APPROVED"));
         repository.saveAll(requests);
+        return requests.size();
     }
 
     @Override

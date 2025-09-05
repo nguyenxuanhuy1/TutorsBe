@@ -87,9 +87,9 @@ public class ClassRequestController {
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/approve")
     public ResponseEntity<Map<String, String>> approveRequests(@RequestBody List<Long> ids) {
-        classRequestService.approveRequests(ids);
+        int updatedCount = classRequestService.approveRequests(ids);
         Map<String, String> response = new HashMap<>();
-        response.put("message", "Phê duyệt thành công " + ids.size() + " yêu cầu.");
+        response.put("message", "Phê duyệt thành công " + updatedCount + " yêu cầu.");
         return ResponseEntity.ok(response);
     }
 

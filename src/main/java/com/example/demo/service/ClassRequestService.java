@@ -11,7 +11,7 @@ import java.util.List;
 public interface ClassRequestService {
     ClassRequest createRequest(ClassRequestDTO dto);
     Page<ClassRequest> getAllRequests(ClassRequestSearchDTO dto, Pageable pageable);
-    List<ClassRequest> getApprovedRequests();
-    ClassRequest approveRequest(Long id);
-    ClassRequest rejectRequest(Long id);
+    Page<ClassRequest> searchRequestsUser(ClassRequestSearchDTO dto, Pageable pageable);
+    void approveRequests(List<Long> ids);
+    void rejectRequests(List<Long> ids);
 }

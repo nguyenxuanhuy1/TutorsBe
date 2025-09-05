@@ -8,7 +8,9 @@ import com.example.demo.service.ClassRequestService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import jakarta.persistence.criteria.Predicate;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -18,6 +20,7 @@ public class ClassRequestServiceImpl implements ClassRequestService {
     public ClassRequestServiceImpl(ClassRequestRepository repository) {
         this.repository = repository;
     }
+
     @Override
     public ClassRequest createRequest(ClassRequestDTO dto) {
         ClassRequest request = ClassRequest.builder()
@@ -39,28 +42,68 @@ public class ClassRequestServiceImpl implements ClassRequestService {
 
     @Override
     public Page<ClassRequest> getAllRequests(ClassRequestSearchDTO dto, Pageable pageable) {
-        // Nếu muốn lọc theo DTO, có thể dùng Specification hoặc Query
-        // Ví dụ tạm thời trả tất cả:
-        return repository.findAll(pageable);
+        return repository.findAll((root, query, cb) -> {
+            List<Predicate> predicates = new ArrayList<>();
+
+            if (dto.getSubject() != null && !dto.getSubject().isEmpty()) {
+                predicates.add(cb.like(root.get("subject"), "%" + dto.getSubject() + "%"));
+            }
+
+            if (dto.getCurrentAcademicLevel() != null && !dto.getCurrentAcademicLevel().isEmpty()) {
+                predicates.add(cb.equal(root.get("currentAcademicLevel"), dto.getCurrentAcademicLevel()));
+            }
+
+            if (dto.getAddress() != null && !dto.getAddress().isEmpty()) {
+                predicates.add(cb.equal(root.get("address"), dto.getAddress()));
+            }
+
+            return cb.and(predicates.toArray(new Predicate[0]));
+        }, pageable);
     }
+
+    // user
     @Override
-    public List<ClassRequest> getApprovedRequests() {
-        return repository.findByStatus("APPROVED");
+    public Page<ClassRequest> searchRequestsUser(ClassRequestSearchDTO dto, Pageable pageable) {
+        return repository.findAll((root, query, cb) -> {
+            List<Predicate> predicates = new ArrayList<>();
+
+            predicates.add(cb.equal(root.get("status"), "APPROVE"));
+
+            if (dto.getGender() != null && !dto.getGender().isEmpty()) {
+                predicates.add(cb.equal(root.get("gender"), dto.getGender()));
+            }
+
+            if (dto.getSubject() != null && !dto.getSubject().isEmpty()) {
+                predicates.add(cb.like(root.get("subject"), "%" + dto.getSubject() + "%"));
+            }
+            if (dto.getDesiredGoal() != null && !dto.getDesiredGoal().isEmpty()) {
+                predicates.add(cb.equal(root.get("desiredGoal"), dto.getDesiredGoal()));
+            }
+
+            if (dto.getCurrentAcademicLevel() != null && !dto.getCurrentAcademicLevel().isEmpty()) {
+                predicates.add(cb.equal(root.get("currentAcademicLevel"), dto.getCurrentAcademicLevel()));
+            }
+
+            if (dto.getAddress() != null && !dto.getAddress().isEmpty()) {
+                predicates.add(cb.equal(root.get("address"), dto.getAddress()));
+            }
+
+            return cb.and(predicates.toArray(new Predicate[0]));
+        }, pageable);
+    }
+
+
+    @Override
+    public void approveRequests(List<Long> ids) {
+        List<ClassRequest> requests = repository.findAllById(ids);
+        requests.forEach(r -> r.setStatus("APPROVED"));
+        repository.saveAll(requests);
     }
 
     @Override
-    public ClassRequest approveRequest(Long id) {
-        ClassRequest request = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Request not found"));
-        request.setStatus("APPROVED");
-        return repository.save(request);
-    }
-
-    @Override
-    public ClassRequest rejectRequest(Long id) {
-        ClassRequest request = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Request not found"));
-        request.setStatus("REJECTED");
-        return repository.save(request);
+    public void rejectRequests(List<Long> ids) {
+        List<ClassRequest> requests = repository.findAllById(ids);
+        requests.forEach(r -> r.setStatus("REJECTED"));
+        repository.saveAll(requests);
     }
 }

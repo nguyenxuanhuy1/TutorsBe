@@ -43,7 +43,7 @@ public class ClassRequest {
     private String gender;
 
     @Column(length = 255)
-    private String address;
+    private String addressDetail;
 
     @Column(length = 200)
     private String requirements;
@@ -53,6 +53,15 @@ public class ClassRequest {
 
     @Column(length = 20, nullable = false)
     private String status; // PENDING, APPROVED, REJECTED
+
+    @Column(nullable = false)
+    private Long provinceId;
+
+    @Column(nullable = false)
+    private Long wardId;
+
+    @Column(length = 500)
+    private String linkMaps;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)

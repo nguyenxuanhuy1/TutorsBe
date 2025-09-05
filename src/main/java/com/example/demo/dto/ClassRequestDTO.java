@@ -14,9 +14,13 @@ public class ClassRequestDTO {
     private String currentAcademicLevel;
     private String desiredGoal;
     private String gender;
-    private String address;
+    private String addressDetail;
     private String requirements;
     private String specificRequirements;
+    private String status;
+    private Long provinceId;
+    private Long wardId;
+    private String linkMaps;
     @NotBlank(message = "captchaToken is required")
     private String captchaToken;
     private LocalDateTime createdAt;

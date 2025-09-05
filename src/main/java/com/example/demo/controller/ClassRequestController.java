@@ -40,8 +40,13 @@ public class ClassRequestController {
         ClassRequest created = classRequestService.createRequest(dto);
         return ResponseEntity.ok(created);
     }
-
-
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/update/{id}")
+    public ResponseEntity<ClassRequest> updateRequest(@PathVariable Long id,
+                                                      @RequestBody ClassRequestDTO dto) {
+        ClassRequest updated = classRequestService.updateRequest(id, dto);
+        return ResponseEntity.ok(updated);
+    }
     // search full cho admin
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/search/admin")

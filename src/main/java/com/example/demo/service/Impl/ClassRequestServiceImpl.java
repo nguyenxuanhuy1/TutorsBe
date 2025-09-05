@@ -31,12 +31,36 @@ public class ClassRequestServiceImpl implements ClassRequestService {
                 .currentAcademicLevel(dto.getCurrentAcademicLevel())
                 .desiredGoal(dto.getDesiredGoal())
                 .gender(dto.getGender())
-                .address(dto.getAddress())
+                .addressDetail(dto.getAddressDetail())
                 .requirements(dto.getRequirements())
                 .specificRequirements(dto.getSpecificRequirements())
                 .status("PENDING") // mặc định
+                .provinceId(dto.getProvinceId())
+                .wardId(dto.getWardId())
                 .build();
 
+        return repository.save(request);
+    }
+
+    @Override
+    public ClassRequest updateRequest(Long id, ClassRequestDTO dto) {
+        // 1. Lấy request hiện tại
+        ClassRequest request = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Not found with id: " + id));
+
+        request.setStudentName(dto.getStudentName());
+        request.setSubject(dto.getSubject());
+        request.setGrade(dto.getGrade());
+        request.setSchedule(dto.getSchedule());
+        request.setCurrentAcademicLevel(dto.getCurrentAcademicLevel());
+        request.setDesiredGoal(dto.getDesiredGoal());
+        request.setGender(dto.getGender());
+        request.setAddressDetail(dto.getAddressDetail());
+        request.setRequirements(dto.getRequirements());
+        request.setSpecificRequirements(dto.getSpecificRequirements());
+        request.setStatus(dto.getStatus());
+        request.setProvinceId(dto.getProvinceId());
+        request.setWardId(dto.getWardId());
         return repository.save(request);
     }
 

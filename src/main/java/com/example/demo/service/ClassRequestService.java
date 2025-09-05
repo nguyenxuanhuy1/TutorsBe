@@ -10,6 +10,7 @@ import java.util.List;
 
 public interface ClassRequestService {
     ClassRequest createRequest(ClassRequestDTO dto);
+    ClassRequest updateRequest(Long id, ClassRequestDTO dto);
     Page<ClassRequest> getAllRequests(ClassRequestSearchDTO dto, Pageable pageable);
     Page<ClassRequest> searchRequestsUser(ClassRequestSearchDTO dto, Pageable pageable);
     int approveRequests(List<Long> ids);

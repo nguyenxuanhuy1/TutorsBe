@@ -5,7 +5,8 @@ import lombok.Data;
 @Data
 public class ClassRequestSearchDTO {
     private String subject;
-    private String address;
+    private String provinceId;
+    private String wardId;
     private String currentAcademicLevel;
     private String desiredGoal;
     private String gender;

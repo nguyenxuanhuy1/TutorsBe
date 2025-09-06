@@ -1,6 +1,7 @@
 package com.example.demo.security;
 
 import io.jsonwebtoken.*;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -8,7 +9,9 @@ import java.util.function.Function;
 
 @Component
 public class JwtUtil {
-    private final String SECRET_KEY = "mysecretkey123456789101112131415161718192021222324"; // key bảo mật
+
+    @Value("${app.security.secret-key}")
+    private String secretKey;
     //    private final long ACCESS_TOKEN_EXPIRATION = 1000 * 60 * 60 ;
     private final long ACCESS_TOKEN_EXPIRATION = 1000 * 60 * 60;
     // refresh token: 5 phút
@@ -22,7 +25,7 @@ public class JwtUtil {
                 .setSubject(email)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + ACCESS_TOKEN_EXPIRATION))
-                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+                .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }
 
@@ -31,7 +34,7 @@ public class JwtUtil {
                 .setSubject(email)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + REFRESH_TOKEN_EXPIRATION))
-                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+                .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }
 
@@ -63,7 +66,7 @@ public class JwtUtil {
 
     private Claims extractAllClaims(String token) {
         return Jwts.parser()
-                .setSigningKey(SECRET_KEY)
+                .setSigningKey(secretKey)
                 .parseClaimsJws(token)
                 .getBody();
     }

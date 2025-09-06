@@ -76,8 +76,12 @@ public class ClassRequestServiceImpl implements ClassRequestService {
                 predicates.add(cb.equal(root.get("currentAcademicLevel"), dto.getCurrentAcademicLevel()));
             }
 
-            if (dto.getAddress() != null && !dto.getAddress().isEmpty()) {
-                predicates.add(cb.equal(root.get("address"), dto.getAddress()));
+            if (dto.getProvinceId() != null && !dto.getProvinceId().isEmpty()) {
+                predicates.add(cb.equal(root.get("provinceId"), dto.getProvinceId()));
+            }
+
+            if (dto.getWardId() != null && !dto.getWardId().isEmpty()) {
+                predicates.add(cb.equal(root.get("wardId"), dto.getWardId()));
             }
 
             return cb.and(predicates.toArray(new Predicate[0]));
@@ -107,10 +111,13 @@ public class ClassRequestServiceImpl implements ClassRequestService {
                 predicates.add(cb.equal(root.get("currentAcademicLevel"), dto.getCurrentAcademicLevel()));
             }
 
-            if (dto.getAddress() != null && !dto.getAddress().isEmpty()) {
-                predicates.add(cb.equal(root.get("address"), dto.getAddress()));
+            if (dto.getProvinceId() != null && !dto.getProvinceId().isEmpty()) {
+                predicates.add(cb.equal(root.get("provinceId"), dto.getProvinceId()));
             }
 
+            if (dto.getWardId() != null && !dto.getWardId().isEmpty()) {
+                predicates.add(cb.equal(root.get("wardId"), dto.getWardId()));
+            }
             return cb.and(predicates.toArray(new Predicate[0]));
         }, pageable);
     }

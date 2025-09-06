@@ -43,7 +43,10 @@ public class SecurityConfig {
                                 "/oauth2/**",
                                 "/api/user/refresh",
                                 "/api/dia-chinh/**",
-                                "/api/class/create").permitAll()
+                                "/api/class/create",
+                                "api/class/search/user"
+                        )
+                        .permitAll()
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(ex -> ex

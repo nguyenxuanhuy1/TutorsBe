@@ -14,6 +14,8 @@ import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -54,18 +56,12 @@ public class SecurityConfig {
                             String accessToken = (String) oAuth2User.getAttributes().get("accessToken");
                             String refreshToken = (String) oAuth2User.getAttributes().get("refreshToken");
 
-                            // Tạo response body
-                            Map<String, String> tokenResponse = new HashMap<>();
-                            tokenResponse.put("accessToken", accessToken);
-                            tokenResponse.put("refreshToken", refreshToken);
+                            // Redirect về FE (React/Vue/Angular) kèm token
+                            String redirectUrl = "http://localhost:3000/xacthuc"
+                                    + "?accessToken=" + URLEncoder.encode(accessToken, StandardCharsets.UTF_8)
+                                    + "&refreshToken=" + URLEncoder.encode(refreshToken, StandardCharsets.UTF_8);
 
-                            // Convert sang JSON bằng Jackson
-                            ObjectMapper mapper = new ObjectMapper();
-                            String jsonResponse = mapper.writeValueAsString(tokenResponse);
-
-                            response.setStatus(HttpServletResponse.SC_OK);
-                            response.setContentType("application/json");
-                            response.getWriter().write(jsonResponse);
+                            response.sendRedirect(redirectUrl);
                         })
                 );
 

@@ -42,16 +42,6 @@ public class JwtUtil {
         });
     }
 
-    // Lấy role từ token
-    public String extractRole(String token) {
-        return extractClaim(token, claims -> claims.get("role", String.class));
-    }
-
-    // Lấy userId từ token
-    public Long extractUserId(String token) {
-        return extractClaim(token, claims -> claims.get("id", Long.class));
-    }
-
     // Check token hết hạn
     public boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());

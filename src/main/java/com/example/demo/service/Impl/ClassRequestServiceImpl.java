@@ -32,7 +32,6 @@ public class ClassRequestServiceImpl implements ClassRequestService {
                 .desiredGoal(dto.getDesiredGoal())
                 .gender(dto.getGender())
                 .addressDetail(dto.getAddressDetail())
-                .requirements(dto.getRequirements())
                 .specificRequirements(dto.getSpecificRequirements())
                 .status("PENDING") // mặc định
                 .provinceId(dto.getProvinceId())
@@ -56,11 +55,11 @@ public class ClassRequestServiceImpl implements ClassRequestService {
         request.setDesiredGoal(dto.getDesiredGoal());
         request.setGender(dto.getGender());
         request.setAddressDetail(dto.getAddressDetail());
-        request.setRequirements(dto.getRequirements());
         request.setSpecificRequirements(dto.getSpecificRequirements());
         request.setStatus(dto.getStatus());
         request.setProvinceId(dto.getProvinceId());
         request.setWardId(dto.getWardId());
+        request.setLinkMaps(dto.getLinkMaps());
         return repository.save(request);
     }
 

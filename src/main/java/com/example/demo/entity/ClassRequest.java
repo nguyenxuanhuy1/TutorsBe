@@ -45,8 +45,6 @@ public class ClassRequest {
     @Column(length = 255)
     private String addressDetail;
 
-    @Column(length = 200)
-    private String requirements;
 
     @Column(length = 500)
     private String specificRequirements;

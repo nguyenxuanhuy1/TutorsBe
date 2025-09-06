@@ -15,7 +15,6 @@ public class ClassRequestDTO {
     private String desiredGoal;
     private String gender;
     private String addressDetail;
-    private String requirements;
     private String specificRequirements;
     private String status;
     private Long provinceId;

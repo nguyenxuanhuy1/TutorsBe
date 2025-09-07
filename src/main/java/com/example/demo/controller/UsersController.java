@@ -19,7 +19,7 @@ public class UsersController {
         this.userService = userService;
         this.authService = authService;
     }
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/info")
     public UserEntity getUserInfo(Authentication authentication) {
         String email = authentication.getName();

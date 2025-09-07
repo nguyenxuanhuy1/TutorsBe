@@ -99,7 +99,9 @@ public class ClassRequestServiceImpl implements ClassRequestService {
             if (dto.getGender() != null && !dto.getGender().isEmpty()) {
                 predicates.add(cb.equal(root.get("gender"), dto.getGender()));
             }
-
+            if (dto.getGrade() != null && !dto.getGrade().isEmpty()) {
+                predicates.add(cb.equal(root.get("grade"), dto.getGrade()));
+            }
             if (dto.getSubject() != null && !dto.getSubject().isEmpty()) {
                 predicates.add(cb.like(root.get("subject"), "%" + dto.getSubject() + "%"));
             }

@@ -44,7 +44,7 @@ public class SecurityConfig {
                                 "/api/user/refresh",
                                 "/api/dia-chinh/**",
                                 "/api/class/create",
-                                "api/class/search/user"
+                                "/api/class/search/user"
                         )
                         .permitAll()
                         .anyRequest().authenticated()

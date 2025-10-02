@@ -60,7 +60,7 @@ public class SecurityConfig {
                             String refreshToken = (String) oAuth2User.getAttributes().get("refreshToken");
 
                             // Redirect về FE (React/Vue/Angular) kèm token
-                            String redirectUrl = "http://localhost:3000/xacthuc"
+                            String redirectUrl = "https://giasusupham1.com/xacthuc"
                                     + "?accessToken=" + URLEncoder.encode(accessToken, StandardCharsets.UTF_8)
                                     + "&refreshToken=" + URLEncoder.encode(refreshToken, StandardCharsets.UTF_8);
 

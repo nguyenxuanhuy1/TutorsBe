@@ -94,12 +94,14 @@ public class ClassRequestServiceImpl implements ClassRequestService {
         return repository.findAll((root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
 
-            predicates.add(cb.equal(root.get("status"), "APPROVE"));
+            predicates.add(cb.equal(root.get("status"), "0"));
 
             if (dto.getGender() != null && !dto.getGender().isEmpty()) {
                 predicates.add(cb.equal(root.get("gender"), dto.getGender()));
             }
-
+            if (dto.getGrade() != null && !dto.getGrade().isEmpty()) {
+                predicates.add(cb.equal(root.get("grade"), dto.getGrade()));
+            }
             if (dto.getSubject() != null && !dto.getSubject().isEmpty()) {
                 predicates.add(cb.like(root.get("subject"), "%" + dto.getSubject() + "%"));
             }
@@ -126,7 +128,7 @@ public class ClassRequestServiceImpl implements ClassRequestService {
     @Override
     public int approveRequests(List<Long> ids) {
         List<ClassRequest> requests = repository.findAllById(ids);
-        requests.forEach(r -> r.setStatus("APPROVED"));
+        requests.forEach(r -> r.setStatus("0"));
         repository.saveAll(requests);
         return requests.size();
     }
@@ -134,7 +136,7 @@ public class ClassRequestServiceImpl implements ClassRequestService {
     @Override
     public void rejectRequests(List<Long> ids) {
         List<ClassRequest> requests = repository.findAllById(ids);
-        requests.forEach(r -> r.setStatus("REJECTED"));
+        requests.forEach(r -> r.setStatus("1"));
         repository.saveAll(requests);
     }
 }
